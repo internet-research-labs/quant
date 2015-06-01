@@ -25,10 +25,36 @@
    :alpha (/ (rand-int 1000) 1000)})
 
 
-(defn- k-means
+(defn argmin
+  "Return key of max value."
+  [xs]
+  (loop [ys (if (map? xs) xs (zipmap (range) xs))
+         smallest-pos   nil
+         smallest-value Double/POSITIVE_INFINITY]
+    (if-not (empty? ys)
+      (let [[k value] (first ys)]
+        (if (< value smallest-value)
+          (recur (rest ys) k value)
+          (recur (rest ys) smallest-pos smallest-value)))
+      ;; FINAL RETURN VALUE
+      smallest-pos)))
+
+; (loop [i 0
+;        ys xs
+;        smallest Double/POSITIVE_INFINITY]
+;   (if (empty? ys)
+;     (let [value (first ys)]
+;         (recur (inc i)
+;                (rest ys)
+;                (if (< smallest (first ys)) smallest value)))
+;     smallest)))
+
+
+(defn group-points
   "Return clusters."
-  [k points]
-  (loop [clusters (repeat k random-color)]
-    (for [point points]
-      1
+  [k points distf iterations]
+  (for [point points]
+    (loop [centers (repeat k random-color)
+           clusters (zipmap centers (repeat (count centers) []))]
+      clusters
     )))
